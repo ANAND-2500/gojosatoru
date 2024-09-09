@@ -1,5 +1,6 @@
 import pyttsx3
-
+import speech_recognition as sr
+import eel
 
 
 def speak(text):
@@ -11,4 +12,27 @@ def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-speak("GOJO")
+@eel.expose
+def takecommand():
+
+    r=sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print('listening....')
+        eel.DisplayMessage('listening....')
+        r.pause_threshold = 1
+        r.adjust_for_ambient_noise(source)
+
+        audio=r.listen(source, 10, 6)
+    try:
+        print('recogninzing')
+        eel.DisplayMessage('recogninzing....')
+        query=r.recognize_google(audio, language= 'en-in')
+        print(f"user said:{query}")
+        eel.DisplayMessage(query)
+        speak(query)
+        eel.ShowHood()
+    except Exception as e:
+        return""
+    return query.lower()
+
