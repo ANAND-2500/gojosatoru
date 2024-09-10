@@ -5,6 +5,7 @@ import time
 
 
 def speak(text):
+    text = str(text)
     engine = pyttsx3.init('sapi5')
     voices = engine.getProperty('voices')  
     engine.setProperty('voice', voices[0].id)
@@ -81,7 +82,8 @@ def allCommands(message=1):
 
 
         else:
-            print("not run")
+            from engine.features import chatBot
+            chatBot(query)
     except:
         print("error")
     
