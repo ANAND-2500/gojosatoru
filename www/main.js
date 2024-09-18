@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    
+
+    eel.init()()
+
     $('.text').textillate({
         loop: true,
         sync: true,
@@ -23,7 +25,7 @@ $(document).ready(function () {
         autostart: true
       });
 
-      // Siri message animation
+    // Siri message animation
     $('.siri-message').textillate({
         loop: true,
         sync: true,
@@ -47,9 +49,8 @@ $(document).ready(function () {
         eel.allCommands()()
     });
 
-    //- Create Shortcut key in main.js
 
-   function doc_keyUp(e) {
+    function doc_keyUp(e) {
         // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
 
         if (e.key === 'j' && e.metaKey) {
@@ -61,59 +62,61 @@ $(document).ready(function () {
     }
     document.addEventListener('keyup', doc_keyUp, false);
 
+    // to play assisatnt 
+    function PlayAssistant(message) {
 
-        // to play assisatnt 
-        function PlayAssistant(message) {
+        if (message != "") {
 
-            if (message != "") {
-    
-                $("#Oval").attr("hidden", true);
-                $("#SiriWave").attr("hidden", false);
-                eel.allCommands(message);
-                $("#chatbox").val("")
-                $("#MicBtn").attr('hidden', false);
-                $("#SendBtn").attr('hidden', true);
-    
-            }
-    
+            $("#Oval").attr("hidden", true);
+            $("#SiriWave").attr("hidden", false);
+            eel.allCommands(message);
+            $("#chatbox").val("")
+            $("#MicBtn").attr('hidden', false);
+            $("#SendBtn").attr('hidden', true);
+
         }
 
-            // toogle fucntion to hide and display mic and send button 
-        function ShowHideButton(message) {
-            if (message.length == 0) {
-                $("#MicBtn").attr('hidden', false);
-                $("#SendBtn").attr('hidden', true);
-            }
-            else {
-                $("#MicBtn").attr('hidden', true);
-                $("#SendBtn").attr('hidden', false);
-            }
+    }
+
+    // toogle fucntion to hide and display mic and send button 
+    function ShowHideButton(message) {
+        if (message.length == 0) {
+            $("#MicBtn").attr('hidden', false);
+            $("#SendBtn").attr('hidden', true);
         }
+        else {
+            $("#MicBtn").attr('hidden', true);
+            $("#SendBtn").attr('hidden', false);
+        }
+    }
 
-            // key up event handler on text box
-        $("#chatbox").keyup(function () {
+    // key up event handler on text box
+    $("#chatbox").keyup(function () {
 
-            let message = $("#chatbox").val();
-            ShowHideButton(message)
+        let message = $("#chatbox").val();
+        ShowHideButton(message)
     
-        });
+    });
     
     // send button event handler
-        $("#SendBtn").click(function () {
+    $("#SendBtn").click(function () {
     
+        let message = $("#chatbox").val()
+        PlayAssistant(message)
+    
+    });
+    
+
+    // enter press event handler on chat box
+    $("#chatbox").keypress(function (e) {
+        key = e.which;
+        if (key == 13) {
             let message = $("#chatbox").val()
             PlayAssistant(message)
-    
-        });
-
-            // enter press event handler on chat box
-        $("#chatbox").keypress(function (e) {
-            key = e.which;
-            if (key == 13) {
-                let message = $("#chatbox").val()
-                PlayAssistant(message)
-            }
+        }
     });
+
+
 
 
 });
